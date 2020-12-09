@@ -99,28 +99,36 @@ def ocupado(pasillo):
     p=pasillo_bool.loc[pasillo_bool["pasillo"]==pasillo]
     return p.iloc[0,1]
 
-def tiempo(ordenes,pickeadores):
+def tiempo(ordenes):
     print("cant pickeadores:", cant_pickeadores)
+    productos=0
     for x in range(len(ordenes)):
         ordenes[x]=ordenar(ordenes[x])
-    
+        t=0
     t_recorrido=0
     t_wait=0
     t_pick=0
     contador=[]
+    to_end=[]
+    for x in range(cant_pickeadores):
+        to_end.append(0)
     for y in range(cant_pickeadores):
         contador.append(0)
         
-    while len(ordenes_enum)>0:
+    while len(ordenes_enum)>=0:
         
+        if asignar_ordenes(pickeadores)==to_end:
+            break
         asignar_ordenes(pickeadores)
         for x in range(cant_pickeadores):
+            
             if pickeadores[x]!=0: 
                 if contador[x]==-1:
                     next_move=-1
                 else:
                     next_move=objeto_en_pasillo(ordenes[pickeadores[x]-1][contador[x]])
-                if len(ruta(next_move,pasillo_act[x]))==0:
+                    
+                if len(ruta(next_move,pasillo_act[x]))==0:#estoy en el pasillo a recoger producto
                     if pasillo_act[x]==-1:
                         contador[x]=0
                         pickeadores[x]=0
@@ -128,6 +136,7 @@ def tiempo(ordenes,pickeadores):
                     
                     else:
                         t_pick+=tiempo_pickeo
+                        
                         if contador[x]+1<len(ordenes[pickeadores[x]-1]):
                             contador[x]+=1
                         else:
@@ -143,18 +152,22 @@ def tiempo(ordenes,pickeadores):
                         pasillo_bool.iloc[pasillo_bool.loc[pasillo_bool["pasillo"]==route[0]].index,2]=x+1
                     
                     else:
+                       
                         if ocupado(route[0]):
                             t_wait+=tiempo_pickeo
                         else:
+                            
                             if pasillo_act[x]>0:
                                 largo_pasillo=layout.loc[layout["pasillo"]==pasillo_act[x]].iloc[0,9]
                                 t_recorrido+=largo_pasillo/velocidad
+                            
                             distancia_df=adyacencia.loc[(adyacencia["pasillo"]==pasillo_act[x]) & (adyacencia["adyacente"]==route[0])]
                             distancia=distancia_df.iloc[0,2]
                             pasillo_bool.iloc[pasillo_bool.loc[pasillo_bool["pasillo"]==pasillo_act[x]].index,1]=False
                             pasillo_bool.iloc[pasillo_bool.loc[pasillo_bool["pasillo"]==pasillo_act[x]].index,2]=0
                             t_recorrido+=distancia/velocidad
                             pasillo_act[x]=route[0]
+                            
                             pasillo_bool.iloc[pasillo_bool.loc[pasillo_bool["pasillo"]==route[0]].index,1]=True
                             pasillo_bool.iloc[pasillo_bool.loc[pasillo_bool["pasillo"]==route[0]].index,2]=x+1
             
