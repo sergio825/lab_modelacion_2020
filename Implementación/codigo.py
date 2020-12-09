@@ -1,6 +1,10 @@
 import pandas as pd
 import numpy as np
 
+'''Datos considerados para la implementacion (modificables):'''  
+cant_pickeadores=18
+tiempo_pickeo=20
+velocidad= 20
 
 
 
@@ -145,9 +149,11 @@ def tiempo(ordenes,pickeadores):
                             if pasillo_act[x]>0:
                                 largo_pasillo=layout.loc[layout["pasillo"]==pasillo_act[x]].iloc[0,9]
                                 t_recorrido+=largo_pasillo/velocidad
+                            distancia_df=adyacencia.loc[(adyacencia["pasillo"]==pasillo_act[x]) & (adyacencia["adyacente"]==route[0])]
+                            distancia=distancia_df.iloc[0,2]
                             pasillo_bool.iloc[pasillo_bool.loc[pasillo_bool["pasillo"]==pasillo_act[x]].index,1]=False
                             pasillo_bool.iloc[pasillo_bool.loc[pasillo_bool["pasillo"]==pasillo_act[x]].index,2]=0
-                            t_recorrido+=1/velocidad
+                            t_recorrido+=distancia/velocidad
                             pasillo_act[x]=route[0]
                             pasillo_bool.iloc[pasillo_bool.loc[pasillo_bool["pasillo"]==route[0]].index,1]=True
                             pasillo_bool.iloc[pasillo_bool.loc[pasillo_bool["pasillo"]==route[0]].index,2]=x+1
@@ -167,10 +173,6 @@ def ordenar(orden):
                 lista_ordenada.append(orden[x])
     return lista_ordenada
         
-'''Datos considerados para la implementacion (modificables):'''  
-cant_pickeadores=18
-tiempo_pickeo=20
-velocidad= 20
 
    
     
