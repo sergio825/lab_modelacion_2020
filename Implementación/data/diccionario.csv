@@ -1,0 +1,23 @@
+Dataset,Columna,Descripcion
+layout,Producto,identificador del producto
+layout,orden,orden secuencial del producto
+layout,pasillo,identificador del pasillo
+layout,uso,tipo de uso
+layout,direccion,"dirección del pasillo (ASCENDENTE, DESCENDENTE O AMBAS)"
+layout,gondola,gondola izquierda o derecha
+layout,slot_largo,largo del slot
+layout,slot_ancho,ancho del slot
+layout,slot_alto,alto del slot
+layout,largo_pasillo,largo del pasillo
+layout,ancho_pasillo,ancho del pasillo
+adyacencia,pasillo,identificador del pasillo (p)
+adyacencia,adyacente,identificador del pasillo adyacente (pa)
+adyacencia,distancia,distancia del pasillo al pasillo adyacente (p→pa)
+skus,Producto,identificador del producto
+skus,Largo,largo del producto
+skus,Ancho,ancho del producto
+skus,Alto,alto del producto
+skus,Peso,peso del producto
+skus,Apilabilidad,tipo de apilabilidad
+ots,Pedido,identificador del pedido
+ots,Cod.Prod,identificador del producto
